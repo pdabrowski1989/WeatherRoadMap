@@ -1,18 +1,25 @@
 const path = require('path');
 const webpack = require('webpack');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-
-module.exports = {
-    entry: './app/app.module.js',
+const config = {
+    entry: {
+        vendor: [
+            './node_modules/jquery/dist/jquery.js',
+            './node_modules/angular/angular.js',
+            './node_modules/bootstrap/dist/js/bootstrap.js'
+        ],
+        app: [
+            './app/app.module.js'
+        ],
+    },
     output: {
-        filename: 'app.min.js',
-        path: path.resolve(__dirname, 'dist')
+        path: path.resolve(__dirname, 'dist'),
+        filename: '[name].min.js'
     },
     module: {
         rules: [
             {
                 test: /\.js$/,
-                exclude: /(node_modules|bower_components)/,
+                exclude: /(node_modules)/,
                 use: {
                     loader: 'babel-loader',
                     options: {
@@ -22,13 +29,19 @@ module.exports = {
             }
         ]
     },
+    devServer: {
+        contentBase: __dirname,
+        port: 3000
+    },
     plugins: [
-        new CopyWebpackPlugin([{
-            from: './**/*.html',
-            to: path.resolve(__dirname, 'dist')
-        }]),
-        new webpack.optimize.UglifyJsPlugin({
-            compress: { warnings: false }
-        })
+        new webpack.optimize.CommonsChunkPlugin('vendor.min.js')
+        /*new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                warnings: false,
+                drop_console: false,
+            }
+        }),*/
     ]
 };
+
+module.exports = config;
