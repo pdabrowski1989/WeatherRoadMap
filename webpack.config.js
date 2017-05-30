@@ -34,13 +34,18 @@ const config = {
         port: 3000
     },
     plugins: [
-        new webpack.optimize.CommonsChunkPlugin('vendor.min.js')
-        /*new webpack.optimize.UglifyJsPlugin({
+        new webpack.optimize.CommonsChunkPlugin('vendor'),
+        new webpack.optimize.UglifyJsPlugin({
             compress: {
                 warnings: false,
                 drop_console: false,
             }
-        }),*/
+        }),
+        new webpack.ProvidePlugin({
+            jQuery: 'jquery',
+            $: 'jquery',
+            jquery: 'jquery'
+        })
     ]
 };
 

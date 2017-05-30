@@ -1,4 +1,5 @@
-(() => {
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
-   console.log('init 2')
-})();
+angular
+    .module('weatherroadmap', [])
+    .component('dashboardComponent', DashboardComponent);
